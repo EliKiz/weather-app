@@ -1,0 +1,39 @@
+@import '../../style/mixins.scss';
+.skeleton-wrapper{ 
+    min-height: 200px;
+    
+}
+.skeleton {
+    display: flex;
+    @include animation;
+    &__header {
+        display: grid;
+        padding-top: 10px;
+        grid-template-columns: 90px auto;
+        align-items: center;
+    }
+    &__circle {
+        width: 80px;
+        height: 80px;
+        background-color: #C4C4C4;
+        border-radius: 100%;
+    }
+    &__mini {
+        width: 100%;
+        height: 16px;
+        background-color: #C4C4C4;
+    }
+    &__block {
+        height: 35px;
+        width: 100%;
+        background-color: #C4C4C4;
+        margin-top: 15px;
+        &-right { 
+            padding-left: 10px;
+            flex-basis: 40%;
+        }
+        &-left { 
+            flex-basis: 60%;
+        }
+    }
+}
