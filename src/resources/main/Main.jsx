@@ -5,7 +5,7 @@ import Skeleton from "../skeleton/Skeleton";
 import Error from "../error/Error";
 import ButtonSearch from "../buttonSearch/ButtonSearch";
 import InputSearch from "../inputSearch/InputSearch";
-import ErrorBoundary from "../errorBoundary/ErrorBoundary";
+
 
 import './main.scss'
 
@@ -15,7 +15,7 @@ class MainWeather extends Component {
         data : {},
         loading: true,
         error: false,
-        select: 'London',
+        select: '',
         id: 1,
         focused: false,
         lists : [
@@ -28,11 +28,15 @@ class MainWeather extends Component {
     weatherService = new WeatherService();
 
     componentDidMount() { 
-        console.log('mount')
+
         this.updateWeather()
+        this.timerId =  setInterval(this.updateWeather, 16000) 
        
     }   
-    
+    componentWillUnmount() { 
+        clearInterval(this.timerId)
+    }
+
     setFocused = () => {
         this.setState(({focused}) =>  ({
             focused: !focused
@@ -55,22 +59,20 @@ class MainWeather extends Component {
     onWeatherError = () => {
         this.setState({error : true})
     }
-
+    
     updateWeather = (select) => { 
-        console.log('update')
         this.setState({select: ''})
         this.weatherService 
             .getWeather(select)
             .then(this.onWeatherLoaded)
             .catch(this.onWeatherError)
-
-        
     }
     handleSubmit(e) { 
         e.preventDefault();
     }
 
     render() { 
+        console.log('render')
         const {data, loading, select, error, id, focused, lists} = this.state
         const spinner = loading ? <Spinner /> : null
         const messageError = error ? <Error text = 'You may have entered a non-existent city, try another'/> : null
